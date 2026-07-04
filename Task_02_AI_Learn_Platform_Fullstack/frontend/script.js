@@ -1,15 +1,9 @@
 const API_BASE = "http://localhost:5000/api";
 
-// ─── Helper: Get stored token ────────────────────────────────
+// ─── Auth Functions ──────────────────────────────────────────────
 const getToken = () => localStorage.getItem("ailearn_token");
-const getUser = () => JSON.parse(localStorage.getItem("ailearn_user") || "null");
-
-// ─── On Page Load ────────────────────────────────────────────
-window.onload = () => {
-  console.log("AI Learning Platform Loaded ✅");
-  updateNavForAuth();
-  loadCoursesFromAPI();
-};
+const getUser = () =>
+  JSON.parse(localStorage.getItem("ailearn_user") || "null");
 
 // ─── Update Navbar based on login state ──────────────────────
 function updateNavForAuth() {
@@ -26,62 +20,258 @@ function updateNavForAuth() {
   if (user) {
     li.innerHTML = `<a href="#" id="logoutBtn" style="color:#00d4ff">👤 ${user.name} | Logout</a>`;
     navLinks.appendChild(li);
-    document.getElementById("logoutBtn").addEventListener("click", logout);
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", logout);
+    }
   } else {
     li.innerHTML = `<a href="#" id="loginNavBtn">Login / Register</a>`;
     navLinks.appendChild(li);
-    document.getElementById("loginNavBtn").addEventListener("click", showAuthModal);
+    const loginBtn = document.getElementById("loginNavBtn");
+    if (loginBtn) {
+      loginBtn.addEventListener("click", showAuthModal);
+    }
   }
 }
 
-// ─── Start Learning Button ────────────────────────────────────
-const startBtn = document.getElementById("startBtn");
-startBtn.addEventListener("click", () => {
-  const user = getUser();
-  if (user) {
-    document.querySelector("#courses").scrollIntoView({ behavior: "smooth" });
-  } else {
-    showAuthModal();
-  }
-});
+// ─── On Page Load ──────────────────────────────────────────────
+window.onload = () => {
+  console.log("AI Learning Platform Loaded ✅");
+  updateNavForAuth();
+  loadCoursesFromAPI();
+  renderFeatures();
+  renderPricing();
+  renderUserEnrollments();
+  setupContactForm();
+  setupSmoothSectionNavigation();
+};
 
-// ─── Nav Link Active State ────────────────────────────────────
-const links = document.querySelectorAll(".nav-links a");
-links.forEach((link) => {
-  link.addEventListener("click", () => {
-    links.forEach((l) => (l.style.color = "white"));
-    link.style.color = "#00d4ff";
+function setupSmoothSectionNavigation() {
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const targetId = link.getAttribute("href");
+      if (!targetId || targetId === "#") return;
+
+      const target = document.querySelector(targetId);
+      if (!target) return;
+
+      event.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      history.pushState(null, "", targetId);
+    });
   });
+}
+
+// ─── Start Learning Button ────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  const startBtn = document.getElementById("startBtn");
+  if (startBtn) {
+    startBtn.addEventListener("click", () => {
+      const user = getUser();
+      if (user) {
+        document
+          .querySelector("#courses")
+          ?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        showAuthModal();
+      }
+    });
+  }
 });
 
 // ─── Load Courses from API ────────────────────────────────────
 async function loadCoursesFromAPI() {
   try {
+    console.log("Loading courses from API...");
     const res = await fetch(`${API_BASE}/courses`);
-    const courses = await res.json();
+    console.log("Response status:", res.status);
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const data = await res.json();
+    console.log("Courses loaded:", data);
+
+    let courses = Array.isArray(data) ? data : data.courses || [];
 
     const container = document.querySelector(".course-container");
-    container.innerHTML = ""; // clear static cards
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    if (courses.length === 0) {
+      container.innerHTML = `
+        <div class="course-card">
+          <h3>No courses available</h3>
+          <p>Check back later for new courses.</p>
+        </div>
+      `;
+      return;
+    }
 
     courses.forEach((course) => {
       const card = document.createElement("div");
       card.className = "course-card";
       card.innerHTML = `
         <h3>${course.title}</h3>
-        <p>${course.description}</p>
-        <p style="color:#00d4ff; font-weight:bold; margin-bottom:15px;">₹${course.price}</p>
-        <button onclick="enrollCourse('${course.title}')">Enroll Now</button>
+        <p>${course.description || "Learn AI with this course"}</p>
+        <p style="color:#00d4ff; font-weight:bold; margin-bottom:15px;">${course.price > 0 ? `₹${course.price}` : "Free"}</p>
+        <button onclick="enrollCourse(${course.id})">Enroll Now</button>
       `;
       container.appendChild(card);
     });
   } catch (err) {
     console.error("Could not load courses:", err.message);
-    // Fallback: static cards remain if API is not running
+    const container = document.querySelector(".course-container");
+    if (container) {
+      container.innerHTML = `
+        <div class="course-card">
+          <h3>⚠️ Cannot connect to server</h3>
+          <p>Make sure the backend is running on port 5000</p>
+        </div>
+      `;
+    }
+  }
+}
+
+// ─── Render Features ────────────────────────────────────────────
+function renderFeatures() {
+  const featureItems = [
+    {
+      title: "Live AI Classes",
+      description:
+        "Learn directly from industry experts through interactive sessions.",
+    },
+    {
+      title: "Industry Projects",
+      description: "Work on real-world AI projects and build your portfolio.",
+    },
+    {
+      title: "Certificates",
+      description: "Earn recognized certificates after course completion.",
+    },
+    {
+      title: "Placement Support",
+      description: "Get career guidance, mock interviews and job assistance.",
+    },
+  ];
+
+  const container = document.querySelector(".feature-container");
+  if (!container) return;
+
+  container.innerHTML = "";
+  featureItems.forEach((feature) => {
+    const card = document.createElement("div");
+    card.className = "feature-card";
+    card.innerHTML = `
+      <h3>${feature.title}</h3>
+      <p>${feature.description}</p>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// ─── Render Pricing ─────────────────────────────────────────────
+function renderPricing() {
+  const pricingPlans = [
+    {
+      name: "Basic",
+      price: "₹999",
+      items: ["1 AI Course", "Certificate", "Email Support"],
+    },
+    {
+      name: "Pro",
+      price: "₹1999",
+      items: ["All AI Courses", "Certificates", "Projects", "Mentorship"],
+      featured: true,
+    },
+    {
+      name: "Premium",
+      price: "₹2999",
+      items: [
+        "Everything in Pro",
+        "Live Classes",
+        "Placement Support",
+        "Career Guidance",
+      ],
+    },
+  ];
+
+  const container = document.querySelector(".pricing-container");
+  if (!container) return;
+
+  container.innerHTML = "";
+  pricingPlans.forEach((plan) => {
+    const card = document.createElement("div");
+    card.className = `price-card ${plan.featured ? "featured" : ""}`;
+    card.innerHTML = `
+      <h3>${plan.name}</h3>
+      <h1>${plan.price}</h1>
+      ${plan.items.map((item) => `<p>${item}</p>`).join("")}
+      <button>Get Started</button>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// ─── Render User Enrollments ──────────────────────────────────
+async function renderUserEnrollments() {
+  const container = document.querySelector(".my-learning-container");
+  if (!container) return;
+
+  const user = getUser();
+  if (!user) {
+    container.innerHTML = `
+      <div class="learning-card">
+        <p>Login to see your enrolled courses, progress, and personalized recommendations.</p>
+      </div>
+    `;
+    return;
+  }
+
+  try {
+    const token = getToken();
+    const res = await fetch(`${API_BASE}/enroll/my`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      container.innerHTML = `<div class="learning-card"><p>${data.error || "Unable to load your courses."}</p></div>`;
+      return;
+    }
+
+    const enrollments = Array.isArray(data) ? data : data.enrollments || [];
+
+    if (enrollments.length === 0) {
+      container.innerHTML = `
+        <div class="learning-card">
+          <h3>Welcome, ${user.name}</h3>
+          <p>You're not enrolled in any courses yet. Explore the courses section to get started.</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = "";
+    enrollments.forEach((enrollment) => {
+      const card = document.createElement("div");
+      card.className = "learning-card";
+      card.innerHTML = `
+        <h3>${enrollment.title || "Enrolled Course"}</h3>
+        <p>Enrolled on ${new Date(enrollment.enrolled_at).toLocaleDateString()}</p>
+        ${enrollment.completed_percent !== undefined ? `<p>Progress: ${enrollment.completed_percent}%</p>` : ""}
+      `;
+      container.appendChild(card);
+    });
+  } catch (err) {
+    container.innerHTML = `<div class="learning-card"><p>Unable to load enrollments.</p></div>`;
   }
 }
 
 // ─── Enroll in Course ─────────────────────────────────────────
-async function enrollCourse(courseName) {
+async function enrollCourse(courseId) {
   const token = getToken();
 
   if (!token) {
@@ -97,15 +287,17 @@ async function enrollCourse(courseName) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ course_name: courseName }),
+      body: JSON.stringify({ course_id: courseId }),
     });
 
     const data = await res.json();
 
     if (res.ok) {
-      showToast(data.message, "success");
+      showToast(data.message || "Enrolled successfully!", "success");
+      loadCoursesFromAPI();
+      renderUserEnrollments();
     } else {
-      showToast(data.error, "error");
+      showToast(data.message || data.error || "Enrollment failed", "error");
     }
   } catch (err) {
     showToast("Server not reachable. Please try again.", "error");
@@ -113,41 +305,51 @@ async function enrollCourse(courseName) {
 }
 
 // ─── Contact Form ─────────────────────────────────────────────
-const submitBtn = document.getElementById("submitBtn");
-submitBtn.addEventListener("click", async (e) => {
-  e.preventDefault();
+function setupContactForm() {
+  const submitBtn = document.getElementById("submitBtn");
+  if (!submitBtn) return;
 
-  const form = document.querySelector(".contact-form");
-  const inputs = form.querySelectorAll("input, textarea");
+  submitBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
 
-  const name = inputs[0].value.trim();
-  const email = inputs[1].value.trim();
-  const message = inputs[2].value.trim();
+    const form = document.querySelector(".contact-form");
+    if (!form) return;
 
-  if (!name || !email || !message) {
-    showToast("Please fill all fields!", "error");
-    return;
-  }
+    const inputs = form.querySelectorAll("input, textarea");
+    if (inputs.length < 3) return;
 
-  try {
-    const res = await fetch(`${API_BASE}/contact`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, message }),
-    });
+    const name = inputs[0].value.trim();
+    const email = inputs[1].value.trim();
+    const message = inputs[2].value.trim();
 
-    const data = await res.json();
-
-    if (res.ok) {
-      showToast(data.message, "success");
-      form.reset();
-    } else {
-      showToast(data.error, "error");
+    if (!name || !email || !message) {
+      showToast("Please fill all fields!", "error");
+      return;
     }
-  } catch (err) {
-    showToast("Server not reachable. Please try again.", "error");
-  }
-});
+
+    try {
+      const res = await fetch(`${API_BASE}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        showToast(data.message || "Message sent successfully!", "success");
+        form.reset();
+      } else {
+        showToast(
+          data.message || data.error || "Failed to send message",
+          "error",
+        );
+      }
+    } catch (err) {
+      showToast("Server not reachable. Please try again.", "error");
+    }
+  });
+}
 
 // ─── Auth Modal ───────────────────────────────────────────────
 function showAuthModal(mode = "login") {
@@ -207,23 +409,40 @@ function showAuthModal(mode = "login") {
   `;
 
   document.body.appendChild(modal);
-  modal.addEventListener("click", (e) => { if (e.target === modal) modal.remove(); });
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.remove();
+  });
 }
 
+// ─── Switch Tab ────────────────────────────────────────────────
 function switchTab(tab) {
-  document.getElementById("loginForm").style.display = tab === "login" ? "flex" : "none";
-  document.getElementById("registerForm").style.display = tab === "register" ? "flex" : "none";
-  document.getElementById("tabLogin").style.background = tab === "login" ? "#00d4ff" : "#334155";
-  document.getElementById("tabLogin").style.color = tab === "login" ? "#0f172a" : "white";
-  document.getElementById("tabRegister").style.background = tab === "register" ? "#00d4ff" : "#334155";
-  document.getElementById("tabRegister").style.color = tab === "register" ? "#0f172a" : "white";
+  const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
+  const tabLogin = document.getElementById("tabLogin");
+  const tabRegister = document.getElementById("tabRegister");
+
+  if (loginForm) loginForm.style.display = tab === "login" ? "flex" : "none";
+  if (registerForm)
+    registerForm.style.display = tab === "register" ? "flex" : "none";
+  if (tabLogin) {
+    tabLogin.style.background = tab === "login" ? "#00d4ff" : "#334155";
+    tabLogin.style.color = tab === "login" ? "#0f172a" : "white";
+  }
+  if (tabRegister) {
+    tabRegister.style.background = tab === "register" ? "#00d4ff" : "#334155";
+    tabRegister.style.color = tab === "register" ? "#0f172a" : "white";
+  }
 }
 
+// ─── Handle Login ──────────────────────────────────────────────
 async function handleLogin() {
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value.trim();
+  const email = document.getElementById("loginEmail")?.value.trim();
+  const password = document.getElementById("loginPassword")?.value.trim();
 
-  if (!email || !password) return showToast("Fill all fields!", "error");
+  if (!email || !password) {
+    showToast("Fill all fields!", "error");
+    return;
+  }
 
   try {
     const res = await fetch(`${API_BASE}/auth/login`, {
@@ -237,24 +456,33 @@ async function handleLogin() {
     if (res.ok) {
       localStorage.setItem("ailearn_token", data.token);
       localStorage.setItem("ailearn_user", JSON.stringify(data.user));
-      document.getElementById("authModal").remove();
+      document.getElementById("authModal")?.remove();
       showToast(`Welcome back, ${data.user.name}! 🎉`, "success");
       updateNavForAuth();
+      renderUserEnrollments();
     } else {
-      showToast(data.error, "error");
+      showToast(data.message || data.error || "Login failed", "error");
     }
   } catch (err) {
     showToast("Server not reachable.", "error");
   }
 }
 
+// ─── Handle Register ──────────────────────────────────────────
 async function handleRegister() {
-  const name = document.getElementById("regName").value.trim();
-  const email = document.getElementById("regEmail").value.trim();
-  const password = document.getElementById("regPassword").value.trim();
+  const name = document.getElementById("regName")?.value.trim();
+  const email = document.getElementById("regEmail")?.value.trim();
+  const password = document.getElementById("regPassword")?.value.trim();
 
-  if (!name || !email || !password) return showToast("Fill all fields!", "error");
-  if (password.length < 6) return showToast("Password must be at least 6 characters", "error");
+  if (!name || !email || !password) {
+    showToast("Fill all fields!", "error");
+    return;
+  }
+
+  if (password.length < 6) {
+    showToast("Password must be at least 6 characters", "error");
+    return;
+  }
 
   try {
     const res = await fetch(`${API_BASE}/auth/register`, {
@@ -268,22 +496,24 @@ async function handleRegister() {
     if (res.ok) {
       localStorage.setItem("ailearn_token", data.token);
       localStorage.setItem("ailearn_user", JSON.stringify(data.user));
-      document.getElementById("authModal").remove();
+      document.getElementById("authModal")?.remove();
       showToast(`Welcome to AI Learn, ${data.user.name}! 🚀`, "success");
       updateNavForAuth();
     } else {
-      showToast(data.error, "error");
+      showToast(data.message || data.error || "Registration failed", "error");
     }
   } catch (err) {
     showToast("Server not reachable.", "error");
   }
 }
 
+// ─── Logout ────────────────────────────────────────────────────
 function logout() {
   localStorage.removeItem("ailearn_token");
   localStorage.removeItem("ailearn_user");
   showToast("Logged out successfully!", "success");
   updateNavForAuth();
+  renderUserEnrollments();
 }
 
 // ─── Toast Notification ───────────────────────────────────────

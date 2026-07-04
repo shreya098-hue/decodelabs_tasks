@@ -1,290 +1,272 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Learning Platform</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
- <nav class="navbar">
-  <div class="logo">AI Learn</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Learn - Master AI & Machine Learning</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo"><i class="fas fa-brain"></i> AI Learn</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#roadmap">Roadmap</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li id="auth-nav-item">
+          <a href="#" id="loginNavBtn">Login / Register</a>
+        </li>
+      </ul>
+    </nav>
 
-  <ul class="nav-links">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#courses">Courses</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#features">Features</a></li>
-    <li><a href="#testimonials">Testimonials</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-<section class="hero" id="home">
-  <div class="hero-content">
-    <h1>Learn AI & Build Your Future</h1>
-    <p>
-      Master Artificial Intelligence,
-      Machine Learning and Generative AI
-      with industry experts.
-    </p>
-    <button id="startBtn">Start Learning</button>
-  </div>
-</section>
-<section class="stats">
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h1>Learn AI & Build Your Future</h1>
+        <p>
+          Master Artificial Intelligence, Machine Learning and Generative AI
+          with industry experts.
+        </p>
+        <button id="startBtn">Start Learning</button>
+      </div>
+    </section>
 
-  <div class="stat-card">
-    <h2>5000+</h2>
-    <p>Students</p>
-  </div>
+    <!-- Stats Section -->
+    <section class="stats">
+      <div class="stat-card">
+        <h2>5000+</h2>
+        <p>Students</p>
+      </div>
+      <div class="stat-card">
+        <h2>100+</h2>
+        <p>AI Courses</p>
+      </div>
+      <div class="stat-card">
+        <h2>50+</h2>
+        <p>Expert Mentors</p>
+      </div>
+      <div class="stat-card">
+        <h2>95%</h2>
+        <p>Success Rate</p>
+      </div>
+    </section>
 
-  <div class="stat-card">
-    <h2>100+</h2>
-    <p>AI Courses</p>
-  </div>
+    <!-- Courses Section -->
+    <section class="courses" id="courses">
+      <h2 class="section-title">Popular AI Courses</h2>
+      <div class="course-container" id="courseContainer">
+        <!-- Courses will be loaded from API -->
+        <div class="course-card">
+          <h3>Loading courses...</h3>
+          <p>Please wait while we load the latest AI course catalog.</p>
+        </div>
+      </div>
+    </section>
 
-  <div class="stat-card">
-    <h2>50+</h2>
-    <p>Expert Mentors</p>
-  </div>
+    <!-- My Learning Section -->
+    <section class="my-learning" id="my-learning">
+      <h2 class="section-title">My Learning</h2>
+      <div class="my-learning-container" id="myLearningContainer">
+        <div class="learning-card">
+          <p>
+            Login to see your enrolled courses, progress, and personalized
+            recommendations.
+          </p>
+        </div>
+      </div>
+    </section>
 
-  <div class="stat-card">
-    <h2>95%</h2>
-    <p>Success Rate</p>
-  </div>
+    <!-- Roadmap Section -->
+    <section class="roadmap" id="roadmap">
+      <h2 class="section-title">AI Learning Roadmap</h2>
+      <div class="roadmap-container">
+        <div class="roadmap-step">
+          <h3>1. Python Fundamentals</h3>
+          <p>
+            Learn the programming foundation used across AI and data science.
+          </p>
+        </div>
+        <div class="roadmap-step">
+          <h3>2. Statistics & Mathematics</h3>
+          <p>Understand the math behind models, probability, and analysis.</p>
+        </div>
+        <div class="roadmap-step">
+          <h3>3. Machine Learning</h3>
+          <p>
+            Build predictive models using supervised and unsupervised learning.
+          </p>
+        </div>
+        <div class="roadmap-step">
+          <h3>4. Deep Learning</h3>
+          <p>Create neural networks for vision, text, and generative AI.</p>
+        </div>
+        <div class="roadmap-step">
+          <h3>5. Generative AI</h3>
+          <p>
+            Build modern AI applications with transformers and large language
+            models.
+          </p>
+        </div>
+        <div class="roadmap-step">
+          <h3>6. Real World Projects</h3>
+          <p>Apply your skills on industry-level AI projects.</p>
+        </div>
+        <div class="roadmap-step">
+          <h3>7. Job Ready</h3>
+          <p>Prepare with interviews, portfolios, and career guidance.</p>
+        </div>
+      </div>
+    </section>
 
-</section>
-<section class="courses" id="courses">
+    <!-- Features Section -->
+    <section class="features" id="features">
+      <h2 class="section-title">Why Choose Us?</h2>
+      <div class="feature-container">
+        <div class="feature-card">
+          <h3>Live AI Classes</h3>
+          <p>
+            Learn directly from industry experts through interactive sessions.
+          </p>
+        </div>
+        <div class="feature-card">
+          <h3>Industry Projects</h3>
+          <p>Work on real-world AI projects and build your portfolio.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Certificates</h3>
+          <p>Earn recognized certificates after course completion.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Placement Support</h3>
+          <p>Get career guidance, mock interviews and job assistance.</p>
+        </div>
+      </div>
+    </section>
 
-  <h2 class="section-title">Popular AI Courses</h2>
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+      <h2 class="section-title">What Our Students Say</h2>
+      <div class="testimonial-container">
+        <div class="testimonial-card">
+          <p>
+            "This platform helped me learn Machine Learning from scratch. The
+            roadmap and projects were amazing!"
+          </p>
+          <h3>Rahul Sharma</h3>
+          <span>AI Student</span>
+        </div>
+        <div class="testimonial-card">
+          <p>
+            "The Generative AI course was excellent. I built my first AI chatbot
+            within a few weeks."
+          </p>
+          <h3>Priya Verma</h3>
+          <span>ML Enthusiast</span>
+        </div>
+        <div class="testimonial-card">
+          <p>
+            "Industry-level projects and mentorship helped me gain confidence
+            for interviews."
+          </p>
+          <h3>Ayush Singh</h3>
+          <span>Future AI Engineer</span>
+        </div>
+      </div>
+    </section>
 
-  <div class="course-container">
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+      <h2 class="section-title">Choose Your Plan</h2>
+      <div class="pricing-container">
+        <div class="price-card">
+          <h3>Basic</h3>
+          <h1>₹999</h1>
+          <p>1 AI Course</p>
+          <p>Certificate</p>
+          <p>Email Support</p>
+          <button>Get Started</button>
+        </div>
+        <div class="price-card featured">
+          <h3>Pro</h3>
+          <h1>₹1999</h1>
+          <p>All AI Courses</p>
+          <p>Certificates</p>
+          <p>Projects</p>
+          <p>Mentorship</p>
+          <button>Get Started</button>
+        </div>
+        <div class="price-card">
+          <h3>Premium</h3>
+          <h1>₹2999</h1>
+          <p>Everything in Pro</p>
+          <p>Live Classes</p>
+          <p>Placement Support</p>
+          <p>Career Guidance</p>
+          <button>Get Started</button>
+        </div>
+      </div>
+    </section>
 
-    <div class="course-card">
-      <h3>Machine Learning</h3>
-      <p>Learn algorithms, prediction models and data analysis.</p>
-      <button>Enroll Now</button>
-    </div>
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+      <h2 class="section-title">Contact Us</h2>
+      <form class="contact-form">
+        <input
+          type="text"
+          id="contactName"
+          placeholder="Enter Your Name"
+          required
+        />
+        <input
+          type="email"
+          id="contactEmail"
+          placeholder="Enter Your Email"
+          required
+        />
+        <textarea
+          id="contactMessage"
+          rows="5"
+          placeholder="Your Message"
+          required
+        ></textarea>
+        <button type="submit" id="submitBtn">Send Message</button>
+      </form>
+    </section>
 
-    <div class="course-card">
-      <h3>Deep Learning</h3>
-      <p>Build neural networks and advanced AI applications.</p>
-      <button>Enroll Now</button>
-    </div>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div>
+          <h2>AI Learn</h2>
+          <p>Empowering the next generation of AI innovators.</p>
+        </div>
+        <div>
+          <h3>Quick Links</h3>
+          <p>Home</p>
+          <p>Courses</p>
+          <p>Roadmap</p>
+          <p>Contact</p>
+        </div>
+        <div>
+          <h3>Follow Us</h3>
+          <p>LinkedIn</p>
+          <p>GitHub</p>
+          <p>Instagram</p>
+        </div>
+      </div>
+      <hr />
+      <p class="copyright">© 2026 AI Learn. All Rights Reserved.</p>
+    </footer>
 
-    <div class="course-card">
-      <h3>Generative AI</h3>
-      <p>Create AI-powered content, images and applications.</p>
-      <button>Enroll Now</button>
-    </div>
-
-    <div class="course-card">
-      <h3>Prompt Engineering</h3>
-      <p>Master ChatGPT and modern AI prompting techniques.</p>
-      <button>Enroll Now</button>
-    </div>
-
-    <div class="course-card">
-      <h3>Computer Vision</h3>
-      <p>Teach machines to understand images and videos.</p>
-      <button>Enroll Now</button>
-    </div>
-
-    <div class="course-card">
-      <h3>Natural Language Processing</h3>
-      <p>Build chatbots and language understanding systems.</p>
-      <button>Enroll Now</button>
-    </div>
-
-  </div>
-
-</section>
-<section class="roadmap" id="roadmap">
-  <h2 class="section-title">AI Learning Roadmap</h2>
-
-  <div class="roadmap-container">
-    <div class="roadmap-step">1. Python Fundamentals</div>
-    <div class="roadmap-step">2. Statistics & Mathematics</div>
-    <div class="roadmap-step">3. Machine Learning</div>
-    <div class="roadmap-step">4. Deep Learning</div>
-    <div class="roadmap-step">5. Generative AI</div>
-    <div class="roadmap-step">6. Real World Projects</div>
-    <div class="roadmap-step">7. Job Ready</div>
-  </div>
-</section>
-<section class="features" id="features">
-
-  <h2 class="section-title">Why Choose Us?</h2>
-
-  <div class="feature-container">
-
-    <div class="feature-card">
-      <h3>Live AI Classes</h3>
-      <p>Learn directly from industry experts through interactive sessions.</p>
-    </div>
-
-    <div class="feature-card">
-      <h3>Industry Projects</h3>
-      <p>Work on real-world AI projects and build your portfolio.</p>
-    </div>
-
-    <div class="feature-card">
-      <h3>Certificates</h3>
-      <p>Earn recognized certificates after course completion.</p>
-    </div>
-
-    <div class="feature-card">
-      <h3>Placement Support</h3>
-      <p>Get career guidance, mock interviews and job assistance.</p>
-    </div>
-
-  </div>
-
-</section>
-<section class="testimonials" id="testimonials">
-
-  <h2 class="section-title">What Our Students Say</h2>
-
-  <div class="testimonial-container">
-
-    <div class="testimonial-card">
-      <p>
-        "This platform helped me learn Machine Learning from scratch.
-        The roadmap and projects were amazing!"
-      </p>
-
-      <h3>Rahul Sharma</h3>
-      <span>AI Student</span>
-    </div>
-
-    <div class="testimonial-card">
-      <p>
-        "The Generative AI course was excellent. I built my first AI
-        chatbot within a few weeks."
-      </p>
-
-      <h3>Priya Verma</h3>
-      <span>ML Enthusiast</span>
-    </div>
-
-    <div class="testimonial-card">
-      <p>
-        "Industry-level projects and mentorship helped me gain
-        confidence for interviews."
-      </p>
-
-      <h3>Ayush Singh</h3>
-      <span>Future AI Engineer</span>
-    </div>
-
-  </div>
-
-</section>
-<section class="pricing" id="pricing">
-
-  <h2 class="section-title">Choose Your Plan</h2>
-
-  <div class="pricing-container">
-
-    <div class="price-card">
-      <h3>Basic</h3>
-      <h1>₹999</h1>
-      <p>1 AI Course</p>
-      <p>Certificate</p>
-      <p>Email Support</p>
-      <button>Get Started</button>
-    </div>
-
-    <div class="price-card featured">
-      <h3>Pro</h3>
-      <h1>₹1999</h1>
-      <p>All AI Courses</p>
-      <p>Certificates</p>
-      <p>Projects</p>
-      <p>Mentorship</p>
-      <button>Get Started</button>
-    </div>
-
-    <div class="price-card">
-      <h3>Premium</h3>
-      <h1>₹2999</h1>
-      <p>Everything in Pro</p>
-      <p>Live Classes</p>
-      <p>Placement Support</p>
-      <p>Career Guidance</p>
-      <button>Get Started</button>
-    </div>
-
-  </div>
-
-</section>
-<section class="contact" id="contact">
-
-  <h2 class="section-title">Contact Us</h2>
-
-  <form class="contact-form">
-
-    <input
-      type="text"
-      placeholder="Enter Your Name"
-      required
-    >
-
-    <input
-      type="email"
-      placeholder="Enter Your Email"
-      required
-    >
-
-    <textarea
-      rows="5"
-      placeholder="Your Message"
-      required
-    ></textarea>
-
-  <button type="submit" id="submitBtn">
-  Send Message
-</button>
-
-  </form>
-
-</section>
-<footer class="footer">
-
-  <div class="footer-content">
-
-    <div>
-      <h2>AI Learn</h2>
-      <p>
-        Empowering the next generation
-        of AI innovators.
-      </p>
-    </div>
-
-    <div>
-      <h3>Quick Links</h3>
-      <p>Home</p>
-      <p>Courses</p>
-      <p>Roadmap</p>
-      <p>Contact</p>
-    </div>
-
-    <div>
-      <h3>Follow Us</h3>
-      <p>LinkedIn</p>
-      <p>GitHub</p>
-      <p>Instagram</p>
-    </div>
-
-  </div>
-
-  <hr>
-
-  <p class="copyright">
-    © 2026 AI Learn. All Rights Reserved.
-  </p>
-
-</footer>
-<script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

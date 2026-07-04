@@ -4,9 +4,17 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   background: #0f172a;
+}
+
+section {
+  scroll-margin-top: 95px;
 }
 
 .navbar {
@@ -84,6 +92,7 @@ body {
 .hero button:hover {
   transform: translateY(-4px);
 }
+
 .stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -91,6 +100,7 @@ body {
   padding: 80px 60px;
   background: #0f172a;
 }
+
 .stat-card {
   background: #1e293b;
   padding: 30px;
@@ -114,6 +124,7 @@ body {
 .stat-card p {
   font-size: 1.1rem;
 }
+
 .courses {
   padding: 80px 60px;
   background: #111827;
@@ -172,29 +183,78 @@ body {
 .course-card button:hover {
   transform: scale(1.05);
 }
+
+/* Roadmap Styles */
 .roadmap {
   padding: 80px 60px;
   background: #0f172a;
 }
 
 .roadmap-container {
-  max-width: 700px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
   margin: auto;
 }
 
 .roadmap-step {
   background: #1e293b;
   color: white;
-  padding: 20px;
-  margin: 20px 0;
+  padding: 30px;
+  border-radius: 15px;
   border-left: 5px solid #00d4ff;
-  border-radius: 10px;
+  text-align: center;
   transition: 0.3s;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .roadmap-step:hover {
-  transform: translateX(10px);
+  transform: translateY(-10px);
+  border: 1px solid #00d4ff;
 }
+
+.roadmap-step h3 {
+  color: #00d4ff;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.roadmap-step p {
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.my-learning {
+  padding: 80px 60px;
+  background: #111827;
+}
+
+.my-learning-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.learning-card {
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 15px;
+  color: white;
+  transition: 0.3s;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.learning-card:hover {
+  transform: translateY(-10px);
+  border: 1px solid #00d4ff;
+}
+
+.learning-card h3 {
+  color: #00d4ff;
+  margin-bottom: 15px;
+}
+
 .features {
   padding: 80px 60px;
   background: #111827;
@@ -224,6 +284,7 @@ body {
   color: #00d4ff;
   margin-bottom: 15px;
 }
+
 .testimonials {
   padding: 80px 60px;
   background: #0f172a;
@@ -265,6 +326,7 @@ body {
   color: #cbd5e1;
   font-size: 0.9rem;
 }
+
 .pricing {
   padding: 80px 60px;
   background: #111827;
@@ -318,6 +380,7 @@ body {
   border: 2px solid #00d4ff;
   transform: scale(1.05);
 }
+
 .contact {
   padding: 80px 60px;
   background: #0f172a;
@@ -354,6 +417,7 @@ body {
 .contact-form button:hover {
   transform: translateY(-3px);
 }
+
 .footer {
   background: #111827;
   color: white;
@@ -384,9 +448,68 @@ body {
 .copyright {
   text-align: center;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
+/* Toast Notifications */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 16px 24px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 9999;
+  animation: slideIn 0.3s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.toast.success {
+  background: linear-gradient(135deg, #00d4ff, #0099cc);
+}
+
+.toast.error {
+  background: linear-gradient(135deg, #ff4757, #c0392b);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Loading Spinner */
+.spinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 212, 255, 0.2);
+  border-top: 4px solid #00d4ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -426,6 +549,7 @@ html {
     padding: 60px 20px;
   }
 }
+
 @media (max-width: 480px) {
   .hero h1 {
     font-size: 2rem;
